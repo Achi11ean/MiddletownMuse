@@ -167,7 +167,7 @@ export default function About() {
         <nav aria-label="Primary">
           <div className="grid grid-cols-3 gap-3 sm:gap-4">
             <NavLink to="/contact">Contact</NavLink>
-            <NavLink to="/services">Services</NavLink>
+            <NavLink to="/services">Lessons</NavLink>
           </div>
         </nav>
 
