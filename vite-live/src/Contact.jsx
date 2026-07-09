@@ -208,7 +208,7 @@ export default function ContactPage() {
       </h3>
 
       <p className="font-body text-[#1E2320]/75 text-sm leading-relaxed">
-        Convenient in-studio and online lessons available. Simply submit the
+        Convenient in-home (local) and online lessons available. Simply submit the
         inquiry form below to get started.
       </p>
     </div>
