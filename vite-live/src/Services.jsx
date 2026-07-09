@@ -1,211 +1,397 @@
-// Services.jsx
+// VoiceStudioServices.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Services({
-  contactPath = "/contact",
-  services = [],
-  theme = {
-    pageBg: "bg-gradient-to-b from-blue-900 via-blue-800 to-blue-900",
-    cardBg: "bg-white",
-    cardHoverBg: "hover:bg-gray-50",
-    primaryTextGrad: "bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500",
-    accentTextGrad: "bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400  ",
-    border: "border-white/10",
-    headingText: "text-white",
-    bodyText: "text-gray-700",
+/*
+  Design notes (so future edits stay on-brief):
+  - Palette: "curtain plum" backdrop (a small recital room at dusk), brass gold
+    for accents/numerals, warm cream for readable text, soft coral as a second
+    warm accent, muted lavender for secondary copy.
+  - Type: Fraunces (display, italic for warmth) + Work Sans (body) +
+    IBM Plex Mono (prices/durations, so rates read like a program listing).
+  - Signature element: the "sustained note" wave — a row of bars that breathe
+    gently, standing in for a held tone. Used once, as the hero/body divider.
+  - Custom hex colors are applied via inline style (no Tailwind arbitrary
+    values), Tailwind utilities handle layout/spacing/type scale.
+*/
+
+const palette = {
+  curtain: "#2B1830",
+  curtainDeep: "#1B0F1F",
+  curtainDeeper: "#170D1A",
+  gold: "#C9A227",
+  goldSoft: "#E0BE5C",
+  cream: "#F7F1E6",
+  coral: "#E2836B",
+  lavender: "#B7A2BB",
+  cardCream: "#FBF7EE",
+};
+
+const fontImport =
+  "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap";
+
+const defaultCategories = [
+  {
+    title: "Beginners",
+    blurb:
+      "New to singing? We start with breath, posture, and simple exercises that build real confidence without overwhelm. No experience required — just curiosity.",
   },
-}) {
-  const [selectedService, setSelectedService] = useState(null);
+  {
+    title: "Intermediate & Advanced Singers",
+    blurb:
+      "Refine technique, expand range, and dig into repertoire that challenges you. Lessons grow with your skill and ambition, not a fixed curriculum.",
+  },
+  {
+    title: "Teens & Adults",
+    blurb:
+      "Whether you're thirteen or sixty-three, lessons are paced to your goals, schedule, and stage of life — never one-size-fits-all.",
+  },
+  {
+    title: "All Voice Types",
+    blurb:
+      "Soprano to bass and everywhere between — every voice type gets technique and repertoire suited to its natural color and range.",
+  },
+  {
+    title: "Classical",
+    blurb:
+      "Art song, opera arias, and foundational bel canto technique for singers building a classical core.",
+  },
+  {
+    title: "Musical Theatre",
+    blurb:
+      "Belt, mix, and storytelling technique for the stage — prepping you for auditions, callbacks, and opening night.",
+  },
+  {
+    title: "Pop & Contemporary",
+    blurb:
+      "Mic technique, riffs, and the stylistic choices that make contemporary singing feel natural and expressive.",
+  },
+  {
+    title: "Singer-Songwriters",
+    blurb:
+      "Bring your own songs. We work on vocal delivery, range, and performance choices that serve your original material.",
+  },
+  {
+    title: "Audition Preparation",
+    blurb:
+      "Material selection, cuts, and coaching so you can walk into any audition room ready and calm.",
+  },
+  {
+    title: "Performance Coaching",
+    blurb:
+      "Stage presence, breath under pressure, and the instincts that turn a good singer into a compelling performer.",
+  },
+];
 
-  // fallback default services if none are passed
-const defaultServices = services.length
-  ? services
-  : [
-      {
-        title: "Web Development",
-        desc: "Custom websites and web apps tailored to your business.",
-        details:
-          "We create responsive, high-performing web solutions using modern technologies that align with your goals.",
-        image:
-          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1400&auto=format&fit=crop",
-      },
-      {
-        title: "Mobile Apps",
-        desc: "iOS & Android apps designed for seamless user experiences.",
-        details:
-          "From wireframes to app store deployment, we bring your mobile vision to life with sleek and functional design.",
-        image:
-          "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1400&auto=format&fit=crop",
-      },
-      {
-        title: "Branding & Design",
-        desc: "Creative design solutions to elevate your brand identity.",
-        details:
-          "Logos, color palettes, and full brand kits to make your business unforgettable.",
-        image:
-          "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop",
-      },
-      {
-        title: "Consulting",
-        desc: "Expert guidance to help streamline your business operations.",
-        details:
-          "We provide tailored advice, audits, and strategies for growth and efficiency.",
-        image:
-          "https://images.unsplash.com/photo-1556740758-90de374c12ad?q=80&w=1400&auto=format&fit=crop",
-      },
-      {
-        title: "Budget Saving",
-        desc: "Smart solutions designed to maximize value while reducing costs.",
-        details:
-          "Our budget saving strategies analyze your spending, identify inefficiencies, and deliver cost-effective alternatives that protect quality while improving profitability.",
-        image:
-          "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=1400&auto=format&fit=crop",
-      },
-      {
-        title: "Customer Service",
-        desc: "Reliable, friendly support that strengthens client relationships.",
-        details:
-          "We help businesses implement customer service systems that improve satisfaction, increase retention, and build brand loyalty—whether through training, live support, or digital solutions.",
-        image:
-          "https://media.istockphoto.com/id/1397818637/photo/low-angle-shot-of-an-attractive-young-call-centre-agent-sitting-alone-in-the-office-and-using.jpg?s=612x612&w=0&k=20&c=UwAyTFFIDnNrYOtOhu5rvyL84hbpTJ-F9Htplww-V-o=",
-      },
-    ];
+const defaultRates = [
+  { minutes: 30, price: 50 },
+  { minutes: 45, price: 70 },
+  { minutes: 60, price: 95 },
+];
 
-
-  const ContactButton = () => (
-    <div className="flex justify-center my-10">
-      <Link to={contactPath}>
-        <button
-          className={`px-12 py-2 text-black  rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 ${theme.accentTextGrad}  font-bold border-4 border-white text-2xl border-amber-300/40 hover:border-amber-300`}
-        >
-          Contact Us
-        </button>
-      </Link>
+function SoundWave({ bars = 24 }) {
+  const heights = Array.from({ length: bars }, (_, i) => {
+    // gentle hand-drawn variance so it reads like a held note, not a spectrum analyzer
+    const base = 14 + Math.sin(i * 0.7) * 10 + Math.cos(i * 0.35) * 6;
+    return Math.max(8, Math.round(base));
+  });
+  return (
+    <div
+      className="flex items-end justify-center gap-[3px] sm:gap-1 h-14 sm:h-16 my-10"
+      aria-hidden="true"
+    >
+      {heights.map((h, i) => (
+        <div
+          key={i}
+          className="w-[3px] sm:w-1 rounded-full wave-bar"
+          style={{
+            height: `${h}px`,
+            background: i % 3 === 0 ? palette.coral : palette.goldSoft,
+            animationDelay: `${i * 0.06}s`,
+          }}
+        />
+      ))}
     </div>
+  );
+}
+
+export default function VoiceStudioServices({
+  contactPath = "/contact",
+  categories = defaultCategories,
+  rates = defaultRates,
+}) {
+  const [selected, setSelected] = useState(null);
+
+  const BookButton = ({ full = false }) => (
+    <Link to={contactPath} className={full ? "block w-full sm:w-auto" : ""}>
+      <button
+        className="px-10 py-3 rounded-full font-semibold text-base tracking-wide transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+        style={{
+          backgroundColor: palette.gold,
+          color: palette.curtainDeeper,
+          fontFamily: "'Work Sans', system-ui, sans-serif",
+        }}
+      >
+        Book a Lesson
+      </button>
+    </Link>
   );
 
   return (
-    <div className={`min-h-screen ${theme.pageBg} pb-16`}>
-      {/* Header */}
-      <div className="max-w-6xl mx-auto px-6 pt-12">
-        <div className="text-center">
-          <h1
-            className={`text-3xl border-b-4  sm:text-4xl md:text-5xl font-extrabold ${theme.headingText}`}
-          >
-            Services
-          </h1>
-          <p className="mt-3 text-white/80 max-w-2xl mx-auto">
-            Explore what we offer. Click a service card to learn more.
-          </p>
-        </div>
-      </div>
-        <ContactButton />
-
-      {/* Services Grid */}
-      <div className="max-w-6xl mx-auto px-6 mt-12">
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {defaultServices.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => setSelectedService(s)}
-              className={`text-left rounded-2xl overflow-hidden shadow-xl border ${theme.border} transition transform hover:-translate-y-1 hover:shadow-2xl ${theme.cardBg} ${theme.cardHoverBg}`}
-            >
-              {s.image && (
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="w-full h-40 object-cover"
-                />
-              )}
-              <div className="p-5">
-                <h3
-                  className={`text-xl font-bold mb-2 text-transparent bg-clip-text ${theme.primaryTextGrad}`}
-                >
-                  {s.title}
-                </h3>
-                <p className={`${theme.bodyText}`}>{s.desc}</p>
-              </div>
-            </button>
-          ))}
-        </section>
-
-      </div>
-
-      {/* Modal */}
-   {selectedService && (
-  <div
-    className="fixed inset-0 z-50"
-    aria-modal="true"
-    role="dialog"
-  >
-    {/* Backdrop */}
     <div
-      onClick={() => setSelectedService(null)}
-      className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-    />
-
-    {/* Panel */}
-    <div className="relative z-10 flex min-h-full items-center justify-center p-4">
-      <div className="w-full max-w-2xl overflow-hidden rounded-3xl shadow-2xl border border-white/10 bg-white/90 backdrop-blur-md animate-[fadeInUp_.25s_ease]">
-        {/* Header */}
-        <div className="relative">
-          {selectedService.image && (
-            <img
-              src={selectedService.image}
-              alt={selectedService.title}
-              className="h-56 w-full object-cover"
-            />
-          )}
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
-          <button
-            onClick={() => setSelectedService(null)}
-            className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow hover:bg-white transition"
-            aria-label="Close"
-            title="Close"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Body */}
-        <div className="p-6">
-          <h3 className="text-2xl font-extrabold tracking-tight text-gray-900">
-            {selectedService.title}
-          </h3>
-          <div className="mt-3 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-          <p className="mt-4 text-gray-700 leading-relaxed">
-            {selectedService.details}
-          </p>
-        </div>
-
-        {/* Footer */}
-        <div className="sticky bottom-0 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-between border-t bg-white/80 px-6 py-4 backdrop-blur">
-          <div className="w-full sm:w-auto">
-            <ContactButton />
-          </div>
-          <button
-            onClick={() => setSelectedService(null)}
-            className="w-full sm:w-auto rounded-xl bg-gray-900 px-5 py-2.5 font-semibold text-white shadow hover:bg-gray-800 transition"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-
-    {/* Keyframes */}
-    <style>
-      {`
+      className="min-h-screen"
+      style={{
+        background: `linear-gradient(180deg, ${palette.curtain} 0%, ${palette.curtainDeep} 55%, ${palette.curtainDeeper} 100%)`,
+        fontFamily: "'Work Sans', system-ui, sans-serif",
+      }}
+    >
+      <link rel="stylesheet" href={fontImport} />
+      <style>{`
+        @keyframes wave-breathe {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(1.55); }
+        }
+        .wave-bar {
+          animation: wave-breathe 2.4s ease-in-out infinite;
+          transform-origin: bottom;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .wave-bar { animation: none; }
+        }
+        .fade-in-up {
+          animation: fadeInUp .28s ease;
+        }
         @keyframes fadeInUp {
           from { opacity: 0; transform: translate3d(0, 10px, 0); }
           to   { opacity: 1; transform: translate3d(0, 0, 0); }
         }
-      `}
-    </style>
-  </div>
-)}
+      `}</style>
 
+      {/* Hero */}
+      <div className="max-w-4xl mx-auto px-6 pt-20 pb-2 text-center">
+        <div
+          className="text-xs tracking-[0.25em] uppercase mb-5"
+          style={{ color: palette.lavender, fontFamily: "'IBM Plex Mono', monospace" }}
+        >
+          Voice Studio · Lessons
+        </div>
+        <h1
+          className="text-4xl sm:text-5xl md:text-6xl leading-tight"
+          style={{
+            color: palette.cream,
+            fontFamily: "'Fraunces', serif",
+            fontStyle: "italic",
+            fontWeight: 500,
+          }}
+        >
+          Every voice is welcome here.
+        </h1>
+        <p
+          className="mt-6 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
+          style={{ color: palette.lavender }}
+        >
+          I happily teach beginners and advanced singers alike — teens
+          through adults, every voice type, and every style from classical to
+          pop. Whatever brought you to singing, there's a lesson built around
+          you.
+        </p>
+      </div>
+
+      <SoundWave />
+
+      {/* Who I Teach */}
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-8">
+          <div
+            className="text-xs tracking-[0.25em] uppercase mb-3"
+            style={{ color: palette.gold, fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Who I Teach
+          </div>
+          <p className="text-sm" style={{ color: palette.lavender }}>
+            Tap any specialty to learn more.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3 pb-4">
+          {categories.map((c, i) => (
+            <button
+              key={i}
+              onClick={() => setSelected(c)}
+              className="px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                borderColor: "rgba(201,162,39,0.35)",
+                backgroundColor: "rgba(247,241,230,0.04)",
+                color: palette.cream,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = palette.gold;
+                e.currentTarget.style.backgroundColor = "rgba(201,162,39,0.12)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(201,162,39,0.35)";
+                e.currentTarget.style.backgroundColor = "rgba(247,241,230,0.04)";
+              }}
+            >
+              {c.title}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Affirming banner */}
+      <div className="max-w-5xl mx-auto px-6 mt-14">
+        <div
+          className="rounded-2xl px-8 py-10 text-center relative overflow-hidden"
+          style={{ backgroundColor: "rgba(247,241,230,0.05)" }}
+        >
+          <div
+            className="absolute top-0 left-0 right-0 h-[3px]"
+            style={{
+              background:
+                "linear-gradient(90deg, #E2836B, #E0BE5C, #C9A227, #4FB3A9, #6E8FB5, #8F5FA8)",
+            }}
+          />
+          <p
+            className="text-xl sm:text-2xl leading-snug"
+            style={{ color: palette.cream, fontFamily: "'Fraunces', serif", fontWeight: 500 }}
+          >
+            This studio is LGBTQ+ affirming
+          </p>
+          <p
+            className="mt-3 text-sm sm:text-base max-w-xl mx-auto"
+            style={{ color: palette.lavender }}
+          >
+            Every student is welcomed exactly as they are — your identity,
+            background, and story are always safe here.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-14">
+        <BookButton />
+      </div>
+
+      {/* Lessons & Rates */}
+      <div className="max-w-5xl mx-auto px-6 mt-16">
+        <div className="text-center mb-10">
+          <div
+            className="text-xs tracking-[0.25em] uppercase mb-3"
+            style={{ color: palette.gold, fontFamily: "'IBM Plex Mono', monospace" }}
+          >
+            Lessons & Rates
+          </div>
+          <h2
+            className="text-2xl sm:text-3xl"
+            style={{ color: palette.cream, fontFamily: "'Fraunces', serif", fontStyle: "italic" }}
+          >
+            Simple pricing, flexible scheduling
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {rates.map((r, i) => (
+            <div
+              key={i}
+              className="rounded-2xl p-8 text-center border"
+              style={{
+                backgroundColor: palette.cardCream,
+                borderColor: "rgba(43,24,48,0.08)",
+              }}
+            >
+              <div
+                className="text-4xl mb-1"
+                style={{
+                  color: palette.curtain,
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontWeight: 600,
+                }}
+              >
+                ${r.price}
+              </div>
+              <div
+                className="text-sm uppercase tracking-wide"
+                style={{ color: palette.coral, fontFamily: "'IBM Plex Mono', monospace" }}
+              >
+                {r.minutes} Minute Lesson
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p
+          className="text-center mt-8 text-sm sm:text-base max-w-xl mx-auto leading-relaxed"
+          style={{ color: palette.lavender }}
+        >
+          Lessons are available both in person and online. Scheduling is
+          flexible and can be worked out around each student's goals and
+          availability.
+        </p>
+      </div>
+
+      <div className="flex justify-center my-16">
+        <BookButton />
+      </div>
+
+      {/* Modal */}
+      {selected && (
+        <div className="fixed inset-0 z-50" aria-modal="true" role="dialog">
+          <div
+            onClick={() => setSelected(null)}
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ backgroundColor: "rgba(23,13,26,0.75)" }}
+          />
+          <div className="relative z-10 flex min-h-full items-center justify-center p-4">
+            <div
+              className="w-full max-w-lg rounded-3xl shadow-2xl p-8 fade-in-up"
+              style={{ backgroundColor: palette.cardCream }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <h3
+                  className="text-2xl"
+                  style={{
+                    color: palette.curtain,
+                    fontFamily: "'Fraunces', serif",
+                    fontStyle: "italic",
+                    fontWeight: 500,
+                  }}
+                >
+                  {selected.title}
+                </h3>
+                <button
+                  onClick={() => setSelected(null)}
+                  aria-label="Close"
+                  title="Close"
+                  className="shrink-0 h-9 w-9 rounded-full flex items-center justify-center transition"
+                  style={{ backgroundColor: "rgba(43,24,48,0.08)", color: palette.curtain }}
+                >
+                  ✕
+                </button>
+              </div>
+              <div
+                className="mt-3 h-px"
+                style={{ backgroundColor: "rgba(43,24,48,0.12)" }}
+              />
+              <p
+                className="mt-5 leading-relaxed"
+                style={{ color: "#4A3B4E" }}
+              >
+                {selected.blurb}
+              </p>
+              <div className="mt-7 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                <BookButton />
+                <button
+                  onClick={() => setSelected(null)}
+                  className="w-full sm:w-auto rounded-xl px-5 py-2.5 font-semibold transition"
+                  style={{ backgroundColor: palette.curtain, color: palette.cream }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
