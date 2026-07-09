@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaMicrophoneAlt } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
 
 /**
@@ -151,26 +151,17 @@ const NavBar = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="flex items-center gap-3 pl-2">
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="text-[#C9A24B] hover:text-[#F3EDDC] text-lg transition-transform duration-300 hover:scale-110"
-              >
-                <FaFacebook />
-              </a>
-              <a
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-[#C9A24B] hover:text-[#F3EDDC] text-lg transition-transform duration-300 hover:scale-110"
-              >
-                <FaInstagram />
-              </a>
-            </div>
+<div className="flex items-center gap-3 pl-2">
+  <a
+    href="https://karaoverse.com/artist/the-elegant-hippo-presents"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Jeffrey Jones on Karaoverse"
+    className="text-[#C9A24B] hover:text-[#F3EDDC] text-lg transition-transform duration-300 hover:scale-110"
+  >
+    <FaMicrophoneAlt />
+  </a>
+</div>
             <Link
               to="/contact"
               className="gold-btn font-body text-sm font-medium px-5 py-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3EDDC]"
@@ -246,26 +237,17 @@ const NavBar = () => {
           </Link>
         </div>
 
-        <div className="flex items-center gap-5 px-6 py-6 border-t border-[#C9A24B]/20">
-          <a
-            href="https://www.facebook.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-            className="text-[#C9A24B] hover:text-[#F3EDDC] text-2xl transition-transform duration-300 hover:scale-110"
-          >
-            <FaFacebook />
-          </a>
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            className="text-[#C9A24B] hover:text-[#F3EDDC] text-2xl transition-transform duration-300 hover:scale-110"
-          >
-            <FaInstagram />
-          </a>
-        </div>
+<div className="flex items-center gap-5 px-6 py-6 border-t border-[#C9A24B]/20">
+  <a
+    href="https://karaoverse.com/artist/the-elegant-hippo-presents"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Jeffrey Jones on Karaoverse"
+    className="text-[#C9A24B] hover:text-[#F3EDDC] text-2xl transition-transform duration-300 hover:scale-110"
+  >
+    <FaMicrophoneAlt />
+  </a>
+</div>
       </div>
     </>
   );
