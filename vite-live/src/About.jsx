@@ -258,7 +258,7 @@ export default function About() {
         </section>
 
         {/* Welcome callout for hesitant adult beginners */}
-        <section className="mt-16 mb-20">
+        <section className="mt-6 ">
           <div
             className="rounded-2xl px-8 py-12 text-center relative overflow-hidden"
             style={{ backgroundColor: "rgba(247,241,230,0.05)" }}

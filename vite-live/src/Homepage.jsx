@@ -183,7 +183,7 @@ export default function HomePage() {
         </a>
       </div>
 
-      <ScoreLine className="w-full max-w-md mt-16 lg:mx-0 mx-auto h-10" />
+      <ScoreLine className="w-full max-w-md mt- lg:mx-0 mx-auto h-10" />
     </div>
 
     {/* RIGHT */}
