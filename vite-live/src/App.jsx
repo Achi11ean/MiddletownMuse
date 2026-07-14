@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import Services from "./Services";
 import OurTeam from "./OurTeam";
 import ContactPageTemplate from "./Contact";
+import Footer from "./Footer";
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/ourteam" element={<OurTeam />} />
         <Route path="/contact" element={<ContactPageTemplate />} />
       </Routes>
+      <Footer/>
     </Router>
   );
 }
